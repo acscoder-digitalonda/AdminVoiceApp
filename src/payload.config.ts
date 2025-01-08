@@ -10,6 +10,9 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import AppSubmissions from './collections/AppSubmissions'; 
+import SiteConfig from './collections/SiteConfig'; 
+import Carousels from './collections/Carousels'; 
+import Quiz from './collections/Quiz'; 
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +24,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media,AppSubmissions],
+  collections: [Users, Media,AppSubmissions,Carousels,Quiz],
+  globals: [SiteConfig], 
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
