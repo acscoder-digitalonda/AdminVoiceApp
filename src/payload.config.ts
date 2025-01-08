@@ -11,6 +11,10 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import AppSubmissions from './collections/AppSubmissions'; 
 
+import { cloudStoragePlugin } from '@payloadcms/plugin-cloud-storage'
+import { s3Storage } from '@payloadcms/storage-s3'
+
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -35,6 +39,22 @@ export default buildConfig({
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
+    s3Storage({
+      collections: {
+        media: true, // Enable S3 storage for the 'media' collection
+      },
+      bucket: process.env.S3_BUCKET, // S3 bucket name
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID, // AWS Access Key ID
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY, // AWS Secret Access Key
+        },
+        region: process.env.S3_REGION, // AWS Region (e.g., 'us-east-1')
+        // Optional: Add an endpoint for S3-compatible services (e.g., DigitalOcean Spaces, MinIO)
+        endpoint: process.env.S3_ENDPOINT,
+      },
+    }),
   ],
 })
+
+ 
